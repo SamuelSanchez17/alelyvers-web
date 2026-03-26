@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Search, ShoppingCart, User } from "lucide-react";
 import { homeContent } from "../data/home-content";
 
 const collectionToneClass: Record<string, string> = {
@@ -28,13 +28,36 @@ export function HomePage() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            className="rounded-full border border-black/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] md:hidden"
-            aria-label="Abrir menu"
-          >
-            Menu
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/buscar"
+              aria-label="Buscar productos"
+              className="rounded-full border border-black/15 p-2 transition-colors hover:bg-white"
+            >
+              <Search size={18} />
+            </Link>
+            <Link
+              href="/login"
+              aria-label="Iniciar sesion"
+              className="rounded-full border border-black/15 p-2 transition-colors hover:bg-white"
+            >
+              <User size={18} />
+            </Link>
+            <Link
+              href="/cart"
+              aria-label="Ir al carrito"
+              className="rounded-full border border-black/15 p-2 transition-colors hover:bg-white"
+            >
+              <ShoppingCart size={18} />
+            </Link>
+            <button
+              type="button"
+              className="ml-1 rounded-full border border-black/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] md:hidden"
+              aria-label="Abrir menu"
+            >
+              Menu
+            </button>
+          </div>
         </nav>
       </header>
 
