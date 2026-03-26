@@ -53,4 +53,45 @@ export const homeContent: HomeContent = {
       category: "Macetas",
     },
   ],
+  footer: {
+    seenOn: ["AD", "Destino Central", "Elle Decor", "Revista 192"],
+    newsletterTitle: "Suscribete para recibir tips y promociones artesanales",
+    newsletterPlaceholder: "Tu correo electronico",
+    newsletterCtaLabel: "Suscribirme",
+    socialHandle: "@alelyvers",
+    columns: [
+      {
+        title: "Atencion al cliente",
+        links: [
+          { label: "FAQ", href: "/faq" },
+          { label: "Envios y devoluciones", href: "/envios" },
+          { label: "Contacto", href: "/contacto" },
+        ],
+      },
+      {
+        title: "Nosotros",
+        links: [
+          { label: "Sobre AlelyVers", href: "/sobre-nosotros" },
+          { label: "Aviso de privacidad", href: "/privacidad" },
+          { label: "Terminos y condiciones", href: "/terminos" },
+        ],
+      },
+      {
+        title: "Productos",
+        links: [
+          { label: "Velas", href: "/velas" },
+          { label: "Resina", href: "/resina" },
+          { label: "Macetas", href: "/macetas" },
+        ],
+      },
+      {
+        title: "Herramientas",
+        links: [{ label: "Blog", href: "/blog" }],
+      },
+    ],
+    socialLinks: [
+      { label: "Instagram", href: "https://instagram.com/alelyvers" },
+      { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61580853162022" },
+    ],
+  },
 };
