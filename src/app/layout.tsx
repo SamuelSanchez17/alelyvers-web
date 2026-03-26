@@ -15,7 +15,7 @@ const bodyFont = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AlelyVers | Creaciones artesanales",
+  title: "AlelyVers",
   description: "Velas, resina y macetas artesanales para espacios con identidad.",
 };
 
