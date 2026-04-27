@@ -5,7 +5,7 @@ import { homeContent } from "../data/home-content";
 
 export function SiteHeader() {
   return (
-    <header className="border-b-2 border-[#FDB77E] bg-[#FEFEFE]">
+    <header className="bg-[#FEFEFE]">
       <nav className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4">
         
         <Link href="/" className="block shrink-0">

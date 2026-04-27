@@ -10,7 +10,7 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="border-t-2 border-[#FDB77E] bg-[#FEFEFE] px-4 py-8 md:px-6 md:py-10">
+     <footer className="bg-[#FEFEFE] px-4 py-8 md:px-6 md:py-10">
       <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.2fr_3fr_auto]">
         
         <div>
@@ -66,7 +66,7 @@ export function SiteFooter() {
         </div>
       </div>
       
-      <div className="mx-auto mt-8 max-w-6xl border-t border-[#FDB77E]/30 pt-6 text-center text-xs text-[#4a4a4a]">
+      <div className="mx-auto mt-8 max-w-6xl pt-6 text-center text-xs text-[#4a4a4a]">
         <p>© {new Date().getFullYear()} {homeContent.brandName} · Hecho a mano con Amor</p>
       </div>
     </footer>
