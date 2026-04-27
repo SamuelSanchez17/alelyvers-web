@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Nunito_Sans } from "next/font/google";
-import { SiteFooter } from "@/domains/content/ui/site-footer";
-import { SiteHeader } from "@/domains/content/ui/site-header";
+import { AppChrome } from "@/domains/content/ui/app-chrome";
 import "./globals.css";
 
 const displayFont = Cormorant_Garamond({
@@ -32,9 +31,7 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--brand-mist-50)] text-[var(--brand-ink-900)]">
-        <SiteHeader />
-        <div className="flex-1 pb-10 md:pb-14">{children}</div>
-        <SiteFooter />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );
