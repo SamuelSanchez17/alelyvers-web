@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram } from "lucide-react";
 import { homeContent } from "../data/home-content";
 
@@ -9,23 +10,32 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="border-t border-black/10 bg-[#e3e0df] px-5 py-10 md:px-8">
+    <footer className="border-t-2 border-[#FDB77E] bg-[#FEFEFE] px-4 py-8 md:px-6 md:py-10">
       <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.2fr_3fr_auto]">
+        
         <div>
-          <p className="font-display text-5xl leading-none">AlelyVers</p>
-          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-[var(--brand-ink-700)]">
-            Creaciones artesanales
-          </p>
+          <Image 
+            src="/images/AlelyversLogo.svg" 
+            alt={homeContent.brandName} 
+            width={70} 
+            height={70} 
+            className="h-16 w-auto md:h-20" 
+          />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {homeContent.footer.columns.map((column) => (
-            <div key={column.title} className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.12em]">{column.title}</p>
-              <ul className="space-y-1.5 text-sm text-[var(--brand-ink-700)]">
+            <div key={column.title}>
+              <p className="mb-3 text-sm font-semibold text-[#030303]">
+                {column.title}
+              </p>
+              <ul className="space-y-2 text-sm text-[#4a4a4a]">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <Link className="hover:text-[var(--brand-ink-900)] hover:underline" href={link.href}>
+                    <Link 
+                      className="transition-colors hover:text-[#FEB04B] hover:underline underline-offset-2" 
+                      href={link.href}
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -35,7 +45,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-4">
           {homeContent.footer.socialLinks.map((item) => {
             const Icon = socialIcons[item.label as keyof typeof socialIcons];
             if (!Icon) return null;
@@ -47,13 +57,17 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={item.label}
-                className="rounded-full border border-black/15 p-2 transition-colors hover:bg-[var(--brand-mist-100)]"
+                className="text-[#030303] transition-colors hover:text-[#FEB04B]"
               >
-                <Icon size={16} />
+                <Icon size={22} strokeWidth={1.5} />
               </Link>
             );
           })}
         </div>
+      </div>
+      
+      <div className="mx-auto mt-8 max-w-6xl border-t border-[#FDB77E]/30 pt-6 text-center text-xs text-[#4a4a4a]">
+        <p>© {new Date().getFullYear()} {homeContent.brandName} · Hecho a mano con Amor</p>
       </div>
     </footer>
   );
