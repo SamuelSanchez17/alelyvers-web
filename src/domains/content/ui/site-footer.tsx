@@ -14,13 +14,15 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.2fr_3fr_auto]">
         
         <div>
+          <Link href="/" className="block shrink-0">
           <Image 
             src="/images/AlelyversLogo.svg" 
             alt={homeContent.brandName} 
             width={70} 
             height={70} 
-            className="h-16 w-auto md:h-20" 
+            className="h-18 w-auto md:h-24" 
           />
+          </Link>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
