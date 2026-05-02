@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Esto asegura que las cookies de sesión se actualicen correctamente en cada solicitud, especialmente cuando el token de acceso está cerca de expirar.
+  // Asegura que las cookies de sesión se actualicen correctamente en cada solicitud, especialmente cuando el token de acceso está cerca de expirar.
   await supabase.auth.getUser();
 
   return response;

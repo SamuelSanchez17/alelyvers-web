@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Nunito_Sans } from "next/font/google";
 import { AppChrome } from "@/domains/content/ui/app-chrome";
+import { AuthProvider } from "@/lib/supabase/context/AuthProvider";
 import "./globals.css";
 
 const displayFont = Cormorant_Garamond({
@@ -31,7 +32,9 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--brand-mist-50)] text-[var(--brand-ink-900)]">
-        <AppChrome>{children}</AppChrome>
+        <AuthProvider>
+          <AppChrome>{children}</AppChrome>
+        </AuthProvider>
       </body>
     </html>
   );
