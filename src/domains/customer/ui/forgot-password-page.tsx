@@ -14,7 +14,7 @@ export function ForgotPasswordPage() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/login"
+            href="/auth/login"
             className="rounded-full bg-[var(--brand-ink-900)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-mist-50)]"
           >
             Volver al login

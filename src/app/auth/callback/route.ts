@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 			: "/";
 
 	if (!code) {
-		return NextResponse.redirect(new URL("/login?error=missing_code", origin));
+		return NextResponse.redirect(new URL("/auth/login?error=missing_code", origin));
 	}
 
 	const response = NextResponse.redirect(new URL(redirectPath, origin));
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 	const { error } = await supabase.auth.exchangeCodeForSession(code);
 
 	if (error) {
-		return NextResponse.redirect(new URL("/login?error=auth_callback", origin));
+		return NextResponse.redirect(new URL("/auth/login?error=auth_callback", origin));
 	}
 
 	return response;
