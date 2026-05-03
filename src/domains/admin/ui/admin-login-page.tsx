@@ -1,11 +1,68 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LockKeyhole, Mail, MoveRight, ShieldCheck } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 export function AdminLoginPage() {
+  const supabase = useMemo(() => createClient(), []);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    const normalizedEmail = email.trim();
+    if (!normalizedEmail || !password) {
+      setErrorMessage("Completa correo y contrasena.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password,
+      });
+
+      if (error) {
+        setErrorMessage(error.message);
+        return;
+      }
+
+      if (!data.session) {
+        setErrorMessage("Confirma tu correo antes de ingresar.");
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.session.user.id)
+        .maybeSingle();
+
+      const role = profile?.role ? String(profile.role).toUpperCase() : null;
+      if (profileError || role !== "ADMIN") {
+        await supabase.auth.signOut({ scope: "local" });
+        setErrorMessage("No tienes permisos para acceder.");
+        return;
+      }
+
+      router.push("/admin/dashboard");
+      router.refresh();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 items-center px-5 py-10 md:px-8 md:py-16">
@@ -38,7 +95,7 @@ export function AdminLoginPage() {
               Accede con tus credenciales para abrir el dashboard de administracion.
             </p>
 
-            <form className="mt-8 space-y-4" action="#">
+            <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
               <label className="block space-y-2">
                 <span className="text-xs font-semibold uppercase tracking-[0.13em] text-[var(--brand-ink-700)]">Correo admin</span>
                 <span className="flex items-center gap-2 rounded-xl border border-black/10 bg-[var(--brand-mist-50)] px-3">
@@ -47,6 +104,9 @@ export function AdminLoginPage() {
                     type="email"
                     required
                     placeholder="admin@ejemplo.com"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     className="h-11 w-full bg-transparent text-sm outline-none"
                   />
                 </span>
@@ -60,6 +120,9 @@ export function AdminLoginPage() {
                     type={showPassword ? "text" : "password"}
                     required
                     placeholder="********"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                     className="h-11 w-full bg-transparent text-sm outline-none"
                   />
                   <button
@@ -83,11 +146,18 @@ export function AdminLoginPage() {
                 </Link>
               </div>
 
+              {errorMessage ? (
+                <p className="text-sm text-[#b42318]" role="status" aria-live="polite">
+                  {errorMessage}
+                </p>
+              ) : null}
+
               <button
                 type="submit"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-candle-gold)] text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-ink-900)] transition-transform hover:-translate-y-0.5"
+                disabled={isSubmitting}
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-candle-gold)] text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-ink-900)] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
               >
-                Entrar al panel
+                {isSubmitting ? "Ingresando..." : "Entrar al panel"}
                 <MoveRight size={15} />
               </button>
             </form>
