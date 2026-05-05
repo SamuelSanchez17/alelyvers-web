@@ -90,7 +90,7 @@ export function SiteHeader() {
             </div>
           ) : (
             <Link
-              href="/auth/login"
+              href="/login"
               aria-label="Iniciar sesión"
               className="p-1 text-[#030303] transition-colors hover:text-[#FEB04B]"
             >
