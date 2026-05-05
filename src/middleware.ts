@@ -1,36 +1,29 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { type NextRequest } from "next/server";
+import { createMiddlewareContext } from "@/lib/supabase/middlewares/context";
+import { logRequest } from "@/lib/supabase/middlewares/logger";
+import { requireAuth } from "@/lib/supabase/middlewares/require-auth";
+import { requireAdminRole } from "@/lib/supabase/middlewares/require-role";
+import { refreshSession } from "@/lib/supabase/middlewares/session-refresh";
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  const ctx = createMiddlewareContext(request);
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-            // Actualiza las cookies en la respuesta que va al navegador
-            cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value); // Sincroniza con el request
-            response.cookies.set(name, value, options);
-          });
-        },
-      },
-    }
-  );
+  await refreshSession(ctx);
 
-  // Asegura que las cookies de sesión se actualicen correctamente en cada solicitud, especialmente cuando el token de acceso está cerca de expirar.
-  await supabase.auth.getUser();
+  const authRedirect = await requireAuth(ctx);
+  if (authRedirect) {
+    logRequest(ctx, authRedirect);
+    return authRedirect;
+  }
 
-  return response;
+  const roleRedirect = await requireAdminRole(ctx);
+  if (roleRedirect) {
+    logRequest(ctx, roleRedirect);
+    return roleRedirect;
+  }
+
+  logRequest(ctx, ctx.response);
+  return ctx.response;
 }
 
 export const config = {
